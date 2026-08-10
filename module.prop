@@ -1,0 +1,6 @@
+id=paper_autostart
+name=Paper Autostart
+version=1.0
+versionCode=1
+author=Horizon
+description=Auto-start Bridge Paper Tracker (com.bridge.papertracker) after boot
