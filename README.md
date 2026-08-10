@@ -1,51 +1,38 @@
-# PICO 4 Paper Tracker Autostart
+# PICO 4 Paper Tracker 开机自启
 
-Magisk module that auto-starts the **Bridge Paper Tracker** (`com.bridge.papertracker`) on the PICO 4 (A8110) after boot.
+一个在 **PICO 4（A8110）** 上开机后自动启动 **Bridge Paper Tracker**（`com.bridge.papertracker`）的 Magisk 模块。
 
-PICO 4 开机自动启动 **Paper Tracker**(追踪器) 的 Magisk 模块。
+> English: [README.en-US.md](README.en-US.md) · Русский: [README.ru-RU.md](README.ru-RU.md)
 
-## Features / 特性
+## 特性
 
-- Waits for the system to finish booting (`sys.boot_completed`).
-- Extra wait for the rendering stack / vrshell to settle and for the **see-through** (passthrough) / first-time lab setup to exit before launching.
-- Starts `com.bridge.papertracker` with up to 5 retries.
-- Runtime toggle: enable / disable without editing the script.
+- 等待系统完全开机（`sys.boot_completed`）。
+- 额外等待渲染栈 / vrshell 稳定、并退出 **see-through**（透视）首次实验室设置后再启动。
+- 启动 `com.bridge.papertracker`，最多重试 5 次。
+- 运行时开关：无需改脚本即可启用 / 禁用。
 
-## Requirements / 环境要求
+## 环境要求
 
-- PICO 4 (A8110), rooted
-- Magisk (with module support)
-- Paper Tracker app installed (`com.bridge.papertracker`)
+- PICO 4（A8110），已 root
+- 已安装 Magisk（支持模块）
+- 已安装 Paper Tracker 应用（`com.bridge.papertracker`）
 
-## Installation / 安装
+## 安装
 
-1. Push the module directory to the device, or pack the folder as a zip and install via Magisk Manager (`Install from storage`):
+1. 把模块目录打包成 zip 或整体推送，再用 Magisk Manager「从存储安装」：
 
    ```
    adb push paper_autostart.zip /sdcard/
-   # then install from the zip in Magisk Manager
+   # 然后在 Magisk Manager 里从该 zip 安装
    ```
 
-2. Reboot. Paper Tracker will auto-start ~15–25s after boot.
+2. 重启。Paper Tracker 会在开机约 15–25 秒后自动启动。
 
-## Configuration / 配置
+## 配置
 
-The module reads an `enable` file in its own module directory. Set it to `1` (enable) or `0` (disable). It defaults to enabled on first run.
+模块在其自身目录里读取一个 `enable` 文件：写 `1`（启用）或 `0`（禁用）。首次运行默认为启用。
 
-用自带的开关脚本（在模块目录内执行）:
-
-```sh
-# 查看状态
-sh toggle.sh
-# 启用
-echo 1 > enable
-# 禁用
-echo 0 > enable
-# 禁用后立即停止本次启动（通过 toggle）
-sh toggle.sh off
-```
-
-`toggle.sh` 说明（在模块目录内执行）:
+在模块目录内执行 `toggle.sh`：
 
 ```sh
 sh toggle.sh enable     # 启用自启
@@ -53,25 +40,25 @@ sh toggle.sh disable    # 禁用自启
 sh toggle.sh            # 显示用法
 ```
 
-Note: changing `enable` takes effect on the next boot.
+> 注意：改动 `enable` 后下次开机生效。
 
-## File layout / 文件结构
+## 文件结构
 
 ```
 paper_autostart/
 ├── module.prop    # Magisk 模块描述
-├── service.sh     # 开机自启逻辑 (boot_completed + see-through 等待 + 重试)
+├── service.sh     # 开机自启逻辑（boot_completed + see-through 等待 + 重试）
 └── toggle.sh      # 启停开关脚本
 ```
 
-## How it works / 工作原理
+## 工作原理
 
-`service.sh`:
+`service.sh`：
 
-1. Wait up to 60s for `sys.boot_completed=1`.
-2. Wait another ~20s for the see-through / lab setup to finish so Paper is not blocked.
-3. Launch `com.bridge.papertracker` up to 5 times (with waits), stopping once the process is detected.
+1. 最多等待 60 秒，直到 `sys.boot_completed=1`。
+2. 再等待约 20 秒，等 see-through / 实验室设置结束，避免 Paper 被拦截。
+3. 启动 `com.bridge.papertracker` 最多 5 次（每次间隔等待），检测到进程存在即停止。
 
-## License
+## 许可证
 
 MIT
