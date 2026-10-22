@@ -7,7 +7,7 @@
 *.prop  text eol=lf
 *.txt   text eol=lf
 *.cfg   text eol=lf
-*.mdtext eol=lf
+*.md    text eol=lf
 
 # 二进制资源不参与行尾转换
 *.apk   binary
