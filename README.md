@@ -35,7 +35,7 @@ The module reads an `enable` file in its own module directory. Set it to `1` (en
 用自带的开关脚本（在模块目录内执行）:
 
 ```sh
-# 查看状态
+# 显示用法
 sh toggle.sh
 # 启用
 echo 1 > enable
